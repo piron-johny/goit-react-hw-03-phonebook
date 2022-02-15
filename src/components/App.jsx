@@ -15,7 +15,24 @@ class App extends Component {
     ],
     filter: '',
   };
-  
+
+  componentDidMount() {
+    const localStorageContacts = JSON.parse(localStorage.getItem('contacts'));
+
+    if (localStorageContacts) {
+      this.setState({ contacts: localStorageContacts });
+    }
+  }
+
+  componentDidUpdate(nextProps, prevState) {
+    const stateContacts = this.state.contacts;
+    const prevStateContacts = prevState.contacts;
+
+    if (stateContacts !== prevStateContacts) {
+      localStorage.setItem('contacts', JSON.stringify(stateContacts));
+    }
+  }
+
   handleContact = userData => {
     const contacsListOfState = this.state.contacts;
     let inputName = userData.name;
